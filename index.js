@@ -6,16 +6,13 @@ require('dotenv').config();
 
 const app = express();
 
-// Configure session
 app.use(
   session({ secret: 'your_secret_key', resave: false, saveUninitialized: true })
 );
 
-// Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// User serialization and deserialization
 passport.serializeUser((user, done) => {
   done(null, user);
 });
@@ -33,7 +30,6 @@ passport.use(
       callbackURL: 'http://localhost:3000/auth/google/callback',
     },
     (accessToken, refreshToken, profile, done) => {
-      // Here, you can save or update user info in your database
       return done(null, profile);
     }
   )
@@ -50,17 +46,15 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    // Successful authentication, redirect home.
     res.redirect('/profile');
   }
 );
 
-// Profile route (after successful login)
 app.get('/profile', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
-  res.send(`Hello, ${req.user.displayName}!`);
+  res.send(`Fala cria, Bom dia ${req.user.displayName}!`);
 });
 
 // Home route

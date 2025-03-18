@@ -8,6 +8,6 @@ step 2: Click on create a client;
 
 step 3: Choose a name / type of client;
 
-step 4: On section **URls of Redirect on Authorized**, create a URls like a exempla: `http://localhost:3000/auth/google/callback`
+step 4: On session **URls of Redirect on Authorized**, create a URls like a exempla: `http://localhost:3000/auth/google/callback`
 
 step 5: Finally, you can copy information to Clien ID and Secret;
