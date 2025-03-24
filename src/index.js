@@ -30,7 +30,14 @@ passport.use(
       callbackURL: 'http://localhost:3000/auth/google/callback',
     },
     (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
+      // Aqui você pode acessar as informações do usuário, incluindo o e-mail e a foto
+      const userProfile = {
+        displayName: profile.displayName,
+        email: profile.emails[0].value, // O primeiro e-mail associado
+        photo: profile.photos[0].value, // URL da foto de perfil
+        token: accessToken,
+      };
+      return done(null, userProfile);
     }
   )
 );
@@ -54,7 +61,13 @@ app.get('/profile', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/');
   }
-  res.send(`Fala cria, Bom dia ${req.user.displayName}!`);
+  res.send(`
+    <h1>Bem-vindo, ${req.user.displayName}!</h1>
+    <p>Email: ${req.user.email}</p>
+    <p>token: ${req.user.token}</p>
+    <img src="${req.user.photo}" alt="Foto de perfil" style="width: 150px; height: 150px;"/>
+    <p>Trocando de Login:</p><a href="/auth/google">aqui 🐀🪽</a>
+  `);
 });
 
 // Home route
